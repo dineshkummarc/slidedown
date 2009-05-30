@@ -48,14 +48,14 @@ describe 'SlideDown' do
     with_markdown <<-MD
     |# Special
     MD
-    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Special'
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Special [1/1]'
     with_markdown <<-MD
     |## Special
     MD
-    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides'
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides [1/1]'
     with_markdown <<-MD
     |<!-- This page is intentionally left blank -->
     MD
-    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides'
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides [1/1]'
   end
 end

@@ -20,6 +20,7 @@
   var setIndex = function(idx) {
     var newSlide = '#slide-' + idx;
     if ($(newSlide).size() < 1) { return false; }
+    document.title = document.title.replace(/\d+(\/\d+)/, (idx + 1) + "$1");
     document.location.hash = '#' + idx;
   }
   
