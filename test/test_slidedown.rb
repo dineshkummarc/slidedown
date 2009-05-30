@@ -43,4 +43,19 @@ describe 'SlideDown' do
     # slidedown.render
     Nokogiri(slidedown.render).at('.highlight.js').should.not.be.nil
   end
+
+  it 'has correct <title>' do
+    with_markdown <<-MD
+    |# Special
+    MD
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Special'
+    with_markdown <<-MD
+    |## Special
+    MD
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides'
+    with_markdown <<-MD
+    |<!-- This page is intentionally left blank -->
+    MD
+    Nokogiri::HTML(slidedown.render).at('title').content.should.equal 'Slides'
+  end
 end
