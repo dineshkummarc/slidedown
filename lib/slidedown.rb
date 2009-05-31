@@ -3,25 +3,27 @@ require 'nokogiri'
 require 'rdiscount'
 require 'makers-mark'
 require 'erb'
+require 'pathname'
 require File.join(File.dirname(__FILE__), 'slide')
 
 $SILENT = true
 
 class SlideDown
-  attr_reader :classes
+  attr_reader :classes, :base_path
 
   def self.render(args)
-    new(File.read(File.join(Dir.pwd, *args))).render
+    new(*args).render
   end
 
-  # Ensures that the first slide has proper !SLIDE declaration
-  def initialize(raw)
-    @raw = raw =~ /\A!SLIDE/ ? raw : "!SLIDE\n#{raw}"
+  def initialize(path)
+    @path = path
+    @base_path = Pathname.new( File.dirname(@path) )
+    @raw  = ensure_first_slide_valid( read_source_document(@path) )
     extract_classes!
   end
 
   def slides
-    @slides ||= lines.map { |text| Slide.new(text, *@classes.shift) }
+    @slides ||= lines.map { |text| slide = Slide.new(self, text, *@classes.shift) }
   end
 
   def read(path)
@@ -34,6 +36,15 @@ class SlideDown
   end
 
   private
+
+  def read_source_document(path)
+    File.read(File.join(Dir.pwd, path))
+  end
+
+  def ensure_first_slide_valid(raw)
+    # Ensures that the first slide has proper !SLIDE declaration
+    raw =~ /\A!SLIDE/ ? raw : "!SLIDE\n#{raw}"
+  end
 
   def lines
     @lines ||= @raw.split(/^!SLIDE\s*([a-z\s]*)$/) \
