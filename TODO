@@ -1,2 +1,9 @@
-* Refactor. This isn't high school.
-* Better support for specifying lexers
+# TODO
+
+* Display navigation panel on bottom hotzone rollover:
+  * Current slide number / Slides count
+  * [select] menu to jump quickly to specific slide
+  * Light table link
+
+* "Light Table" view à la Keyonote (floated boxes with small slides, click to jump to slide)
+
