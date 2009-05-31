@@ -32,7 +32,7 @@ class Slide
 
   def suck_in_images!
     # TODO : Make 'alt' attribute optional
-    @html.to_s.gsub!(/<img src="([^"]+)".*alt="([^"]+)".*\s*\/?>/) do |match|
+    @html.to_s.gsub!(/<img src="([^"]+)".*alt="([^"]+)"[^>]*\s*\/?>/) do |match|
       begin
         file = File.read( @slideshow.base_path.join($1) )
         mime = MIME::Types.of(File.basename( @slideshow.base_path.join($1) ))
