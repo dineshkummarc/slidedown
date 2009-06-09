@@ -15,10 +15,14 @@ class SlideDown
     new(*args).render
   end
 
-  def initialize(path)
-    @path = path
-    @base_path = Pathname.new( File.dirname(@path) )
-    @raw  = ensure_first_slide_valid( read_source_document(@path) )
+  def initialize(path_or_content)
+    if File.exist?(path_or_content)
+      @path = path_or_content
+      @base_path = Pathname.new( File.dirname(@path) )
+      @raw  = ensure_first_slide_valid( read_source_document )
+    else
+      @raw  = ensure_first_slide_valid( path_or_content )
+    end
     extract_classes!
   end
 
@@ -37,8 +41,8 @@ class SlideDown
 
   private
 
-  def read_source_document(path)
-    File.read(File.join(Dir.pwd, path))
+  def read_source_document
+    File.read(@path)
   end
 
   def ensure_first_slide_valid(raw)

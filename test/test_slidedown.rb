@@ -23,6 +23,12 @@ describe 'SlideDown' do
     Nokogiri::HTML(slidedown.render).at('h1').should.not.be.nil
   end
 
+  it 'generates HTML from file' do
+    with_markdown_file
+    Nokogiri::HTML(slidedown.render).at('h1').should.not.be.nil
+    Nokogiri::HTML(slidedown.render).at('h1').content.should.equal "Introducing slidedown"
+  end
+
   it 'adds class names to slides' do
     with_markdown <<-MD
     |# This is the title
