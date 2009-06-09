@@ -18,7 +18,7 @@ class Slide
   
   def html
     # Yikes....
-    return @html if @html
+    return @html if defined? @html
     @html = convert_to_html!
     suck_in_images!
     return @html
