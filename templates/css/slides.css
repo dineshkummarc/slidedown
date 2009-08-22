@@ -26,6 +26,10 @@ ul {
   padding: 0 0 0 1em;
 }
 
+ol {
+  padding: 0 0 0 1.3em;
+}
+
 #slides {
   overflow: hidden;
   text-align: left;
@@ -43,6 +47,8 @@ ul {
 
 #track > div .content {
   margin: 0 0.6em;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 #track > div .content h1 {
