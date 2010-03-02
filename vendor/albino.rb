@@ -41,7 +41,7 @@
 # Chris Wanstrath // chris@ozmm.org 
 #         GitHub // http://github.com
 #
-require 'open4'
+require 'open3'
 
 class Albino
   @@bin = '/usr/local/bin/pygmentize'
@@ -60,21 +60,28 @@ class Albino
   end
 
   def execute(command)
-    pid, stdin, stdout, stderr = Open4.popen4(command)
+    # STDERR.puts command
+    stdin, stdout, stderr = Open3.popen3(command)
     stdin.puts @target
     stdin.close
     stdout.read.strip
   end
 
   def colorize(options = {})
+    # STDERR.puts convert_options(options)
     execute @@bin + convert_options(options)
   end
   alias_method :to_s, :colorize
 
   def convert_options(options = {})
+    # STDERR.puts @options.inspect
     @options.merge(options).inject('') do |string, (flag, value)|
-      string + " -#{flag} #{value}" if value
+      string << " -#{flag} #{value}" if value
       string
     end
   end
+end
+
+if __FILE__ == $0
+  puts Albino.new('def hello(); end;', :ruby, :terminal).colorize
 end
